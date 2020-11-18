@@ -3,13 +3,44 @@
 from flask import (Flask, render_template, request,
                     flash, session, redirect)
 from model import connect_to_db
-import crud
-import forecast_data
+# import crud
+# import forecast_data
 from jinja2 import StrictUndefined
 
 import json
-import requests
+# import requests
 
+app = Flask(__name__)
+app.secret_key = "dev"
+app.jinja_env.undefined = StrictUndefined
+
+
+
+@app.route('/')
+def homepage():
+
+    state_code_dict= get_state_code()
+
+    return render_template('homepage.html', state_code = state_code_dict)
+
+
+@app.route('/login')
+def show_method():
+    print(request.method == 'GET')
+
+    return "forecast"
+
+
+@app.route('/forecast', methods=['POST'])
+def show_request():
+
+    if request.method == 'POST':
+
+        print(True)
+
+    elif request.method == 'GET':
+        print(False)
+    return 'true'
 
 
 def get_state_code():
@@ -19,9 +50,6 @@ def get_state_code():
 
     return state_code_dict
 
-app = Flask(__name__)
-app.secret_key = "dev"
-app.jinja_env.undefined = StrictUndefined
 
 
 

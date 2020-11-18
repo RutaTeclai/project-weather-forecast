@@ -5,7 +5,6 @@ import server
 # from model import db, User, Visit, Forecast_office, Station, Geodata, Forecast, connect_to_db
 from datetime import datetime
 
-
 def create_user(fname, lname, email, password, city, state):
     """Create and return a new user."""
 
@@ -57,3 +56,8 @@ def create_forecast(temp_high, temp_low, image, weather_description, humidity, d
     db.session.commit()
 
     return forecast
+
+
+if __name__ == '__main__':
+    from server import app
+    connect_to_db(app)
