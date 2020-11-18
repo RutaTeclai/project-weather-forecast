@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %} Weather Forecast {% endblock %} 
+
+
+{% block body %}
+
+<div class="container">
+    <div class="row search-box">
+        <div class="col">
+            <form action="/forecast_search" class="city-state">
+                <p>
+                    Enter a City <input type="text" name= "city" value=""> 
+                </p>
+                <p>
+                    State <select name="state">
+                        {% for state in state_code %}
+                            <option value="{{state['Code']}}">{{state['State']}}</option>
+                        {% endfor %}
+                    </select>
+                </p><br>
+                
+                <input type="submit" value="Show Forecast">
+            </form>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

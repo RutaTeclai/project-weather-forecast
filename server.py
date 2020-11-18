@@ -3,7 +3,7 @@
 from flask import (Flask, render_template, request,
                     flash, session, redirect)
 from model import connect_to_db
-# import crud
+import crud
 # import forecast_data
 from jinja2 import StrictUndefined
 
@@ -26,7 +26,23 @@ def homepage():
 
 @app.route('/login')
 def show_method():
-    print(request.method == 'GET')
+    
+    email= request.args.get('email')
+    password= request.args.get('password')
+
+    user= crud.get_user_by_email(email)
+    
+
+    if user and user.password == password:
+        city = user.city
+        state = user.state
+        state_code_dict= get_state_code()
+
+        return render_template('forecastpage.html', state_code = state_code_dict, city=city, state=state)
+
+    else:
+        flash("Enter correct email and password or create a new user account")
+        return redirect('/')
 
     return "forecast"
 
