@@ -11,6 +11,14 @@ import json
 import requests
 
 
+
+def get_state_code():
+
+    state_code = open('data/data.json').read()
+    state_code_dict = json.loads(state_code)
+
+    return state_code_dict
+
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
