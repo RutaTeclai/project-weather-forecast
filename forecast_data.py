@@ -52,4 +52,9 @@ def show_forecast(forcast_url):
     return forecast
 
 
+def get_office_name(office_id):
 
+    res = requests.get(f'https://api.weather.gov/offices/{office_id}')
+    office_name = res.json()['name']
+
+    return office_name

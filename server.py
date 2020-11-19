@@ -72,6 +72,19 @@ def show_request():
         grid = forecast_data.get_gridpoints(points)
         forecast_url = grid['forecast']
         forecast_dict = forecast_data.show_forecast(forecast_url)
+
+        forecast_office = crud.get_office_by_id(grid['grid_id'])
+        if not forecast_office:
+            forecast_office_id = grid['grid_id']
+            office_name = forecast_data.get_office_name(forecast_office_id)
+            grid_x = grid['grid_x']
+            grid_y = grid['grid_y']
+
+            crud.create_forecast_office(forecast_office_id, office_name, grid_x, grid_y)
+
+        
+
+
         return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, city=city, state=state)
         
 

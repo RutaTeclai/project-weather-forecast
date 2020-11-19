@@ -64,6 +64,13 @@ def get_user_by_email(email):
     
     return user
 
+def get_office_by_id(office_id):
+
+    
+    office = Forecast_office.query.filter(Forecast_office.forecast_office_id == office_id).first()
+    
+    return office
+
 
 if __name__ == '__main__':
     from server import app
