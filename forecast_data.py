@@ -15,7 +15,8 @@ def lat_lng_city_state(city_name,state):
     city_data = open('data/cities_geodata.json').read()
 
     city_data_dict = json.loads(city_data)
-    
+    latitude = ''
+    longitude = ''
     for city in city_data_dict:
         
          if city['city'] == city_name and city['state_id'] == state:

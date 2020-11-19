@@ -25,6 +25,72 @@
         </div>
     </div>
 
+    <div>{{city}}, {{state}} </div>
+
+    <div class="row days-forecast">
+        {% if (forecast['properties']['periods'][0]['name']) == 'Today' or (forecast['properties']['periods'][0]['name']) == 'This Afternoon' %}
+           
+
+           {% for i  in range(0,13,2)%}
+            
+            <div class="col">
+                
+                <div class="row forecast_date">{{forecast['properties']['periods'][i]['name']}} </div>
+                <div class="row short-forecast">{{forecast['properties']['periods'][i]['shortForecast']}}</div>
+                <div class="row"><img src="{{forecast['properties']['periods'][i]['icon']}}"></div>
+                <div class="row forecast_date">{{forecast['properties']['periods'][i+1]['name']}} </div>
+                <div class="row"><img src="{{forecast['properties']['periods'][i+1]['icon']}}"></div>
+                <div class="row short-forecast">{{forecast['properties']['periods'][i+1]['shortForecast']}}</div>
+                <div class="row">{{forecast['properties']['periods'][i]['temperature']}} &deg;F</div>
+                <div class="row">{{forecast['properties']['periods'][i+1]['temperature']}} &deg;F</div>
+                
+                
+            </div>
+            
+            {% endfor %}
+    
+    
+        {% else %}
+
+            <div class="col">
+                <div class="row forecast_date">{{forecast['properties']['periods'][0]['name']}} </div>
+                <div class="row short-forecast">{{forecast['properties']['periods'][0]['shortForecast']}}</div>
+                <div class="row"><img src="{{forecast['properties']['periods'][0]['icon']}}"></div>
+                <div class="row">{{forecast['properties']['periods'][0]['temperature']}} &deg;F</div>
+
+            </div>
+
+        
+            {% for i  in range(1,12,2)%}
+                
+                
+                <div class="col">
+                    
+                    <div class="row forecast_date">{{forecast['properties']['periods'][i]['name']}} </div>
+                    <div class="row short-forecast">{{forecast['properties']['periods'][i]['shortForecast']}}</div>
+                    <div class="row"><img src="{{forecast['properties']['periods'][i]['icon']}}"></div>
+                    <div class="row forecast_date">{{forecast['properties']['periods'][i+1]['name']}} </div>
+                    <div class="row"><img src="{{forecast['properties']['periods'][i+1]['icon']}}"></div>
+                    <div class="row short-forecast">{{forecast['properties']['periods'][i+1]['shortForecast']}}</div>
+                    <div class="row">{{forecast['properties']['periods'][i]['temperature']}} &deg;F</div>
+                    <div class="row">{{forecast['properties']['periods'][i+1]['temperature']}} &deg;F</div>
+                    
+                </div>
+
+                
+            {% endfor %}
+            <div class="col">
+                <div class="row forecast_date">{{forecast['properties']['periods'][13]['name']}} </div>
+                <div class="row short-forecast">{{forecast['properties']['periods'][13]['shortForecast']}}</div>
+                <div class="row"><img src="{{forecast['properties']['periods'][13]['icon']}}"></div>
+                <div class="row">{{forecast['properties']['periods'][13]['temperature']}} &deg;F</div>
+
+            </div>
+        
+        {% endif %}
+    </div>
+
+
 
 
 

@@ -31,18 +31,20 @@ def show_method():
     password= request.args.get('password')
 
     user= crud.get_user_by_email(email)
-    
+   
 
     if user and user.password == password:
         city = user.city
         state = user.state
+
+        print(f'{city} {state}')
         state_code_dict= get_state_code()
 
         points = forecast_data.lat_lng_city_state(city,state)
         grid = forecast_data.get_gridpoints(points)
         forecast_url = grid['forecast']
         forecast_dict = forecast_data.show_forecast(forecast_url)
-        return render_template('forecastpage.html', state_code = state_code_dict, city=city, state=state)
+        return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, city=city, state=state)
 
     else:
         flash("Enter correct email and password or create a new user account")
@@ -51,16 +53,31 @@ def show_method():
     return "forecast"
 
 
-@app.route('/forecast', methods=['POST'])
+@app.route('/forecast_search')
 def show_request():
 
-    if request.method == 'POST':
+    city = request.args.get('city')
+    state = request.args.get('state')
 
-        print(True)
+    points = forecast_data.lat_lng_city_state(city,state)
 
-    elif request.method == 'GET':
-        print(False)
-    return 'true'
+    state_code_dict= get_state_code()
+    if points == ",":
+
+        flash("Enter correct city and state combination")
+        return render_template('forecastpagecopy.html', state_code = state_code_dict)
+
+    else:
+
+        grid = forecast_data.get_gridpoints(points)
+        forecast_url = grid['forecast']
+        forecast_dict = forecast_data.show_forecast(forecast_url)
+        return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, city=city, state=state)
+        
+
+
+
+    
 
 
 def get_state_code():
