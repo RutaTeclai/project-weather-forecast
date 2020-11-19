@@ -4,11 +4,11 @@ from flask import (Flask, render_template, request,
                     flash, session, redirect)
 from model import connect_to_db
 import crud
-# import forecast_data
+import forecast_data
 from jinja2 import StrictUndefined
 
 import json
-# import requests
+import requests
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -38,6 +38,10 @@ def show_method():
         state = user.state
         state_code_dict= get_state_code()
 
+        points = forecast_data.lat_lng_city_state(city,state)
+        grid = forecast_data.get_gridpoints(points)
+        forecast_url = grid['forecast']
+        forecast_dict = forecast_data.show_forecast(forecast_url)
         return render_template('forecastpage.html', state_code = state_code_dict, city=city, state=state)
 
     else:
