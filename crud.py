@@ -72,6 +72,25 @@ def get_office_by_id(office_id):
     return office
 
 
+def get_visit_by_user_office(user_id, office_id):
+
+    visit = Visit.query.filter(Visit.user_id == user_id and Visit.office_id).first()
+    
+    return visit
+
+def get_visit_by_user(user_id):
+
+    visit = Visit.query.filter(Visit.user_id == user_id).all()
+
+    return visit
+
+def get_user_by_id(user_id):
+
+    user = User.query.filter(User.user_id == user_id).first()
+    
+    return user
+
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)

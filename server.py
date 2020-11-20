@@ -24,6 +24,33 @@ def homepage():
     return render_template('homepage.html', state_code = state_code_dict)
 
 
+@app.route('/create_user', methods=['POST'])
+def create_user_account():
+    """ Register a new User """
+
+    fname= request.form.get('fname')
+    lname= request.form.get('lname')
+    email= request.form.get('email')
+    password= request.form.get('password')
+    city= request.form.get('city')
+    state= request.form.get('state')
+
+    user = crud.get_user_by_email(email)
+   
+
+    if user:
+        flash("The email already in use. Use different email!")
+        
+
+    else:
+        crud.create_user(fname, lname, email, password, city, state)
+        flash("Account successful created. Please Log In")
+
+    return redirect('/')
+
+
+
+
 @app.route('/login')
 def show_method():
     
@@ -34,16 +61,19 @@ def show_method():
    
 
     if user and user.password == password:
+
         city = user.city
         state = user.state
 
-        print(f'{city} {state}')
+        session['user'] = user.user_id
+
         state_code_dict= get_state_code()
 
         points = forecast_data.lat_lng_city_state(city,state)
         grid = forecast_data.get_gridpoints(points)
         forecast_url = grid['forecast']
         forecast_dict = forecast_data.show_forecast(forecast_url)
+        
         return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, city=city, state=state)
 
     else:
@@ -82,12 +112,32 @@ def show_request():
 
             crud.create_forecast_office(forecast_office_id, office_name, grid_x, grid_y)
 
+            # user_id = session.get('user')
+
+            # visit = get_visit_by_user_office(user_id,forecast_office_id)
+
+            # if not visit:
+            #     user = crud.get_user_by_id(user_id)
+            #     crud.create_visit(user,office)
+
+            
+
+    
+    return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, city=city, state=state)
         
 
+# @app.route('/offices')
+# def show_offices(): 
 
-        return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, city=city, state=state)
-        
+#     # after session works get all offices visited by user
 
+#     visits = crud.get_visit_by_user(2)
+#     for visit in visits:
+
+#         offices = visit.forecast_office_id
+
+#         print(offices)
+#     return "offices"
 
 
     
