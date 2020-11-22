@@ -3,5 +3,7 @@
 
 function hourlyForecast(){
 
-    alert('hello')
+    // alert('hello');
+    // alert($('#forecast-office').text());
+    alert($('#office-id').val());
 }

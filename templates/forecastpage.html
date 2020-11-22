@@ -27,7 +27,20 @@
         <div class="News"> </div>
     </div>
 
+    <div>
+        Your local forecast office is
+        {{office_name}}
+        <input type = "hidden" value = "{{forecast_id}}" id="office-id">
+
+    </div>
     <div>{{city}}, {{state}} </div>
+    <div>
+       
+        <label id="forecast-office">Top</label>
+        
+         
+
+    </div>
 
     <div class="row days-forecast">
         {% if (forecast['properties']['periods'][0]['name']) == 'Today' or (forecast['properties']['periods'][0]['name']) == 'This Afternoon' %}
@@ -93,7 +106,7 @@
     </div>
 
     <div><a href="/offices">Show Weather Forecast Offices</div></a>
-    <div class="forecast-office">
+    <a href="javascript:void(0)" onclick="hourlyForecast()">Hourly Weather Forecast</a>
       
     </div>
 

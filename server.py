@@ -72,9 +72,14 @@ def show_method():
         points = forecast_data.lat_lng_city_state(city,state)
         grid = forecast_data.get_gridpoints(points)
         forecast_url = grid['forecast']
+        forecast_id = grid['grid_id']
+        office_name = forecast_data.get_office_name(forecast_id)
         forecast_dict = forecast_data.show_forecast(forecast_url)
         
-        return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, city=city, state=state)
+        return render_template('forecastpage.html', forecast = forecast_dict, 
+                                state_code = state_code_dict, city=city, state=state,
+                                office_name = office_name,
+                                forecast_id = forecast_id)
 
     else:
         flash("Enter correct email and password or create a new user account")
