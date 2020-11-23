@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% block title %} Weather Forecast {% endblock %} 
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" 
+integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+crossorigin="anonymous"></script>
+{% endblock %}
 
 
 {% block body %}
@@ -24,13 +31,19 @@
 
         </div>
 
-        <div class="News"> </div>
+        <div class="News"> 
+            <form action="/news" method="POST">
+                <input type = "hidden" value = "{{forecast_id}}" id="office-id">
+                <input type="submit" value="News">
+            </form>
+            <div id="article"></div>
+        </div>
     </div>
 
     <div>
         Your local forecast office is
         {{office_name}}
-        <input type = "hidden" value = "{{forecast_id}}" id="office-id">
+        
 
     </div>
     <div>{{city}}, {{state}} </div>
@@ -107,8 +120,27 @@
 
     <div><a href="/offices">Show Weather Forecast Offices</div></a>
     <a href="javascript:void(0)" onclick="hourlyForecast()">Hourly Weather Forecast</a>
-      
+    <a href="javascript:void(0)" id="hourly-forecast-link"> Beti</a>
+    <button id="dani">Dani</button>
+
+    <div id="table-forecast"></div>
+    <canvas id="forecast-chart"></canvas>
+
+    <script src="/static/js/forecast.js"></script>
+    
+    <button id="update-status" class="btn btn-primary">Get status</button>
+
+    <script src="/static/js/forecast.js"></script>
+
+    <div id="hourly-forecast"></div>
+
+    
+   
+      <p>ajax is<span id="ajax"></span></p>
+      <script src="/static/js/forecast.js"></script>
     </div>
+
+
 
 
 

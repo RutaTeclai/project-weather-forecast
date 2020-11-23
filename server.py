@@ -1,6 +1,6 @@
 """Server for weather forecasts app."""
 
-from flask import (Flask, render_template, request,
+from flask import (Flask, render_template, request,jsonify,
                     flash, session, redirect)
 from model import connect_to_db
 import crud
@@ -8,11 +8,20 @@ import forecast_data
 from jinja2 import StrictUndefined
 
 import json
+
 import requests
+
 
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
+
+newspaper = {'articles':[
+                            {"link": "https://www.surveymonkey.com/r/frostfreeze","title": "We need your opinions!  Please take our Frost / Freeze product public survey open until 12/17/20"},
+                            {"link": "https://www.weather.gov/media/top/newsletter/Fall 2020 Topeka Tiller.pdf","title": "Fall 2020 NWS Topeka Newsletter"},
+                            {"link": "https://www.google.com", 'title': "Search Engine"}
+                        ]
+   }
 
 
 
@@ -22,6 +31,8 @@ def homepage():
     state_code_dict= get_state_code()
 
     return render_template('homepage.html', state_code = state_code_dict)
+    # return render_template('ajax.html')
+
 
 
 @app.route('/create_user', methods=['POST'])
@@ -73,13 +84,15 @@ def show_method():
         grid = forecast_data.get_gridpoints(points)
         forecast_url = grid['forecast']
         forecast_id = grid['grid_id']
+        # forecast_id = grid
         office_name = forecast_data.get_office_name(forecast_id)
         forecast_dict = forecast_data.show_forecast(forecast_url)
         
         return render_template('forecastpage.html', forecast = forecast_dict, 
                                 state_code = state_code_dict, city=city, state=state,
                                 office_name = office_name,
-                                forecast_id = forecast_id)
+                                forecast_id = forecast_id,
+                                grid = grid['forecast_hourly'])
 
     else:
         flash("Enter correct email and password or create a new user account")
@@ -131,6 +144,16 @@ def show_request():
     return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, city=city, state=state)
         
 
+@app.route('/hourly-forecast/<grid>')
+def get_hourly_forecast():
+
+    forecast_link = grid['forecast_hourly']
+    print(f' the forecast link --- {forecast_link}')
+    return forecast_link
+
+
+
+
 # @app.route('/offices')
 # def show_offices(): 
 
@@ -144,8 +167,16 @@ def show_request():
 #         print(offices)
 #     return "offices"
 
+# @app.route("/ajax-view")
+# def get_ele():
 
-    
+#     return "working"
+
+# @app.route('/news', methods=['POST'])   
+# def show_news():
+
+#     office_id = request.form.get('office-id')
+#     res = request.get(f'https://api.weather.gov/offices/{ office_id}/headlines')
 
 
 def get_state_code():
@@ -156,7 +187,21 @@ def get_state_code():
     return state_code_dict
 
 
+@app.route('/news')
+def get_news():
 
+    office_id = request.args.get('id')
+    print(office_id)
+
+    return jsonify(newspaper)
+
+@app.route('/hourly-forecast')
+def show_hourly_forecast():
+
+    tbl = forecast_data.hourly_forecast()
+
+    return jsonify(tbl)
+    
 
 
 

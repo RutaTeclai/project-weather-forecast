@@ -1,6 +1,6 @@
 """ """
 
-from flask import (Flask, render_template, request,
+from flask import (Flask, render_template, request, jsonify,
                     flash, session, redirect)
 from datetime import datetime
 from model import db, User, Visit, Forecast_office, Forecast, connect_to_db
@@ -179,14 +179,24 @@ def hourly_forecast():
 
     date_str = iso_to_date(periods[0]['startTime'])
 
+    data = []
     
     for period in periods:
 
         if (iso_to_date(period['startTime'])).date() == date_str.date():
+
+            # time = (iso_to_date(period['startTime'])).time().strftime("%-I %p")
+            time = period['startTime']
+            temp = period['temperature']
+            data.append({'time':f'{time}', 'temp':temp })
            
             print(period['temperature'])
             
             print((iso_to_date(period['startTime'])).time().strftime("%-I %p"))
+
+    hourly_forecast = {'forecasts':data}
+
+    return hourly_forecast
 
 
 
