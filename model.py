@@ -66,7 +66,7 @@ class Forecast_office(db.Model):
 
 
     visit = db.relationship('Visit')
-    # station = db.relationship('Station')
+    station = db.relationship('Station')
     forecast = db.relationship('Forecast')
 
 
@@ -100,7 +100,25 @@ class Forecast(db.Model):
         """ show info about Forecast """
         return f'<Forecast Temp_high={self.temp_high} Temp_low= {self.temp_low} forecast_date= {self.forecast_date}, humidity= {self.humidity}>'
 
+class Station(db.Model):
+    """ A Weather Forecast Observation Station """
 
+    __tablename__ = 'stations'
+
+    station_id = db.Column(db.String,
+                            primary_key = True)
+    station_name = db.Column(db.String, nullable = False)
+    elevation = db.Column(db.Float, nullable = True)
+    
+
+    forecast_office_id = db.Column(db.String, db.ForeignKey('forecast_offices.forecast_office_id'))
+
+    forecast_office = db.relationship('Forecast_office')
+    
+
+    def __repr__(self):
+        """ show info about station """
+        return f'<Forecast Station station_id={self.station_id} Station Name= {self.station_name}>'
 
 
 def connect_to_db(flask_app, db_uri='postgresql:///forecasts', echo=True):

@@ -9,18 +9,20 @@
             <p>
               Your News headlines <b>News</b>.
 
-              <div id="article-title"></div>
+              <button id="news-button" >News</button>
+            
+            <div id="article"></div>
             </p>
             
-          </div>
+          
         
           
           <input type="hidden" id="office" value="Mpx">
         
-          <button id="office-id"> Forecast</button>
+          
 
           <script src="/static/js/news.js"></script>
-
+        </div>
         <div class="row"><h1>Welcome to Weather Forecast!!!</h1></div>
         <div class="row">
             <div class="col">
@@ -45,31 +47,31 @@
                     <br><button id= "user_form">Create User Account</button>
 
                     <div>
-                        <form id= "create_user" action="create_user" method="POST">
+                        <form id= "create_user">
                             <p>
-                                First Name <input type="text" name="fname">
+                                First Name <input type="text" name="fname" id="fname">
                             </p>
                             <p>
-                                Last Name <input type="text" name="lname">
+                                Last Name <input type="text" name="lname" id="lname">
                             </p>
                             <p>
-                                Email <input type="text" name= "email">
+                                Email <input type="text" name= "email" id="email">
                             </p>
                             <p>
-                                Password <input type="password" name="password">
+                                Password <input type="password" name="password" id="password">
                             </p>
                             <p>
-                                City <input type="text" name="city">
+                                City <input type="text" name="city" id="city">
                             </p>
                             <p>
-                                State <select name="state">
+                                State <select name="state" id="state">
                                     {% for state in state_code %}
                                         <option value="{{state['Code']}}">{{state['State']}}</option>
                                     {% endfor %}
                                 </select>
                             </p>
                             <p>
-                                <input type="submit">
+                                <input type="submit" id="submit-user">
                             </p>
                         </form>
                     </div>
@@ -77,6 +79,9 @@
             </div>
         </div>
 
+        <div id="registration-form"></div>
+        <script type="text/jsx" src="/static/registration.jsx"></script>
+        
         
         
     </div>

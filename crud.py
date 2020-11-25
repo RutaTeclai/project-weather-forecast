@@ -39,13 +39,13 @@ def create_forecast_office(forecast_office_id, office_name, grid_x, grid_y):
     db.session.add(forecast_office)
     db.session.commit()
 
-    return forecast_office
+    return forecast_office, 
 
 
 def create_forecast(temp_high, temp_low, image, weather_description, humidity, dew_point,
                     forecast_office_id,city, state,forecast_date=datetime.now()):
     
-    """ Create adn return a new Forecast - weatherdata for a given date, default = now """
+    """ Create and return a new Forecast - weatherdata for a given date, default = now """
 
     forecast = Forecast(temp_high= temp_high, temp_low=temp_low, image=image, 
                         weather_description= weather_description, humidity=humidity,
@@ -57,6 +57,17 @@ def create_forecast(temp_high, temp_low, image, weather_description, humidity, d
 
     return forecast
 
+
+def create_station(station_id, station_name,elevation, forecast_office_id):
+    """ Create and return a new Forecast Observation Station aka Station """
+
+    station = Station(station_id = station_id, station_name = station_name,
+                        elevation = elevation, forecast_office_id = forecast_office_id)
+
+    db.session.add(station)
+    db.session.commit()
+
+    return station
 
 def get_user_by_email(email):
     

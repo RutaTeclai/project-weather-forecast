@@ -32,10 +32,12 @@ crossorigin="anonymous"></script>
         </div>
 
         <div class="News"> 
-            <form action="/news" method="POST">
+            
                 <input type = "hidden" value = "{{forecast_id}}" id="office-id">
-                <input type="submit" value="News">
-            </form>
+              
+                
+                <button id="news-button" >News</button>
+            
             <div id="article"></div>
         </div>
     </div>
@@ -128,7 +130,7 @@ crossorigin="anonymous"></script>
 
     <script src="/static/js/forecast.js"></script>
     
-    <button id="update-status" class="btn btn-primary">Get status</button>
+    <button id="forecast-hourly" >Hourly Forecast</button>
 
     <script src="/static/js/forecast.js"></script>
 
@@ -136,7 +138,7 @@ crossorigin="anonymous"></script>
 
     
    
-      <p>ajax is<span id="ajax"></span></p>
+     
       <script src="/static/js/forecast.js"></script>
     </div>
 

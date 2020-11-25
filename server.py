@@ -33,11 +33,8 @@ def homepage():
     return render_template('homepage.html', state_code = state_code_dict)
     # return render_template('ajax.html')
 
-
-
 @app.route('/create_user', methods=['POST'])
-def create_user_account():
-    """ Register a new User """
+def user():
 
     fname= request.form.get('fname')
     lname= request.form.get('lname')
@@ -47,17 +44,44 @@ def create_user_account():
     state= request.form.get('state')
 
     user = crud.get_user_by_email(email)
-   
 
     if user:
-        flash("The email already in use. Use different email!")
+        """ user_account already exists or the email already in use """
+        return "1"
         
 
     else:
+        """ no user_account exists and create a user account """
         crud.create_user(fname, lname, email, password, city, state)
-        flash("Account successful created. Please Log In")
+        return "2"
+        
 
-    return redirect('/')
+
+
+
+# @app.route('/create_user', methods=['POST'])
+# def create_user_account():
+#     """ Register a new User """
+
+#     fname= request.form.get('fname')
+#     lname= request.form.get('lname')
+#     email= request.form.get('email')
+#     password= request.form.get('password')
+#     city= request.form.get('city')
+#     state= request.form.get('state')
+
+#     user = crud.get_user_by_email(email)
+   
+
+#     if user:
+#         flash("The email already in use. Use different email!")
+        
+
+#     else:
+#         crud.create_user(fname, lname, email, password, city, state)
+#         flash("Account successful created. Please Log In")
+
+#     return redirect('/')
 
 
 
@@ -122,28 +146,32 @@ def show_request():
         forecast_dict = forecast_data.show_forecast(forecast_url)
 
         forecast_office = crud.get_office_by_id(grid['grid_id'])
+        forecast_office_id = grid['grid_id']
+        office_name = forecast_data.get_office_name(forecast_office_id)
+        grid_x = grid['grid_x']
+        grid_y = grid['grid_y']
         if not forecast_office:
-            forecast_office_id = grid['grid_id']
-            office_name = forecast_data.get_office_name(forecast_office_id)
-            grid_x = grid['grid_x']
-            grid_y = grid['grid_y']
+            
 
             crud.create_forecast_office(forecast_office_id, office_name, grid_x, grid_y)
 
-            # user_id = session.get('user')
+        user_id = session.get('user')
 
-            # visit = get_visit_by_user_office(user_id,forecast_office_id)
+        visit = get_visit_by_user_office(user_id,forecast_office_id)
 
-            # if not visit:
-            #     user = crud.get_user_by_id(user_id)
-            #     crud.create_visit(user,office)
+        if not visit:
+            user = crud.get_user_by_id(user_id)
+            crud.create_visit(user,forecast_office)
 
             
 
     
-    return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, city=city, state=state)
+    return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, 
+                            city=city, state=state,office_name = office_name,
+                            forecast_id = forecast_office_id,
+                            grid = grid['forecast_hourly'])
         
-
+ 
 @app.route('/hourly-forecast/<grid>')
 def get_hourly_forecast():
 
@@ -154,18 +182,18 @@ def get_hourly_forecast():
 
 
 
-# @app.route('/offices')
-# def show_offices(): 
+@app.route('/offices')
+def show_offices(): 
 
-#     # after session works get all offices visited by user
+    # after session works get all offices visited by user
 
-#     visits = crud.get_visit_by_user(2)
-#     for visit in visits:
+    visits = crud.get_visit_by_user(2)
+    for visit in visits:
 
-#         offices = visit.forecast_office_id
+        offices = visit.forecast_office_id
 
-#         print(offices)
-#     return "offices"
+        print(offices)
+    return "offices"
 
 # @app.route("/ajax-view")
 # def get_ele():
