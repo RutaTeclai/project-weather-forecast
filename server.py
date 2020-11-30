@@ -16,23 +16,18 @@ app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 
-newspaper = {'articles':[
-                            {"link": "https://www.surveymonkey.com/r/frostfreeze","title": "We need your opinions!  Please take our Frost / Freeze product public survey open until 12/17/20"},
-                            {"link": "https://www.weather.gov/media/top/newsletter/Fall 2020 Topeka Tiller.pdf","title": "Fall 2020 NWS Topeka Newsletter"},
-                            {"link": "https://www.google.com", 'title': "Search Engine"}
-                        ]
-   }
-
 
 
 @app.route('/')
 def homepage():
-
+    """ show homepage --- log-in form & button (create user)"""
     state_code_dict= get_state_code()
 
     return render_template('homepage.html', state_code = state_code_dict)
-    # return render_template('ajax.html')
 
+
+
+    
 @app.route('/create_user', methods=['POST'])
 def user():
 
@@ -49,41 +44,15 @@ def user():
         """ user_account already exists or the email already in use """
         return "1"
         
-
     else:
         """ no user_account exists and create a user account """
-        crud.create_user(fname, lname, email, password, city, state)
-        return "2"
-        
+        user = crud.create_user(fname, lname, email, password, city, state)
+        # forecast_office = crud.jcity,state)
+        # if not forecast_office:
+        #     data = forecast_data.api_data(city,state)
+        #     add_data_todb(data)
 
-
-
-
-# @app.route('/create_user', methods=['POST'])
-# def create_user_account():
-#     """ Register a new User """
-
-#     fname= request.form.get('fname')
-#     lname= request.form.get('lname')
-#     email= request.form.get('email')
-#     password= request.form.get('password')
-#     city= request.form.get('city')
-#     state= request.form.get('state')
-
-#     user = crud.get_user_by_email(email)
-   
-
-#     if user:
-#         flash("The email already in use. Use different email!")
-        
-
-#     else:
-#         crud.create_user(fname, lname, email, password, city, state)
-#         flash("Account successful created. Please Log In")
-
-#     return redirect('/')
-
-
+    return "2"
 
 
 @app.route('/login')
@@ -104,25 +73,21 @@ def show_method():
 
         state_code_dict= get_state_code()
 
-        points = forecast_data.lat_lng_city_state(city,state)
-        grid = forecast_data.get_gridpoints(points)
-        forecast_url = grid['forecast']
-        forecast_id = grid['grid_id']
-        # forecast_id = grid
-        office_name = forecast_data.get_office_name(forecast_id)
-        forecast_dict = forecast_data.show_forecast(forecast_url)
-        
-        return render_template('forecastpage.html', forecast = forecast_dict, 
-                                state_code = state_code_dict, city=city, state=state,
+        grid,forecast_dict, office_name, office_id, hourly_forecast, station_dict, station_forecast = (forecast_tuple(city,state))
+
+        return render_template('forecastpage.html',forecast = forecast_dict,
+                                state_code = state_code_dict,
+                                city=city, state=state,
                                 office_name = office_name,
-                                forecast_id = forecast_id,
-                                grid = grid['forecast_hourly'])
+                                forecast_id = office_id,
+                                hourly_forecast= hourly_forecast,
+                                station_dict = station_dict,
+                                station_forecast = station_forecast)
+
 
     else:
         flash("Enter correct email and password or create a new user account")
         return redirect('/')
-
-    return "forecast"
 
 
 @app.route('/forecast_search')
@@ -131,81 +96,67 @@ def show_request():
     city = request.args.get('city')
     state = request.args.get('state')
 
-    points = forecast_data.lat_lng_city_state(city,state)
+    user_id = session.get('user')
 
     state_code_dict= get_state_code()
-    if points == ",":
 
-        flash("Enter correct city and state combination")
-        return render_template('forecastpagecopy.html', state_code = state_code_dict)
+    points = forecast_data.lat_lng_city_state(city,state)
+    if points:
+
+        grid,forecast_dict, office_name, office_id, hourly_forecast, station_dict, station_forecast= (forecast_tuple(city,state))
+        # print(grid)
+        grid_x= grid['grid_x']
+        grid_y = grid['grid_y']
+        endpoint = grid['office_endpoint']
+
+        forecast_office = crud.get_office_by_id(office_id)
+        if not forecast_office:
+
+            forecast_office = crud.create_forecast_office(office_id, office_name, grid_x, grid_y,endpoint)
+
+        crud.create_visit(user_id,office_id)
+
+        return render_template('forecastpage.html',forecast = forecast_dict,
+                                state_code = state_code_dict,
+                                city=city, state=state,
+                                office_name = office_name,
+                                forecast_id = office_id,
+                                hourly_forecast= hourly_forecast,
+                                station_dict = station_dict,
+                                station_forecast = station_forecast)
 
     else:
+        flash("Enter valid City and State combination")
+        return render_template('forecastpagecopy.html', state_code = state_code_dict)
 
-        grid = forecast_data.get_gridpoints(points)
-        forecast_url = grid['forecast']
-        forecast_dict = forecast_data.show_forecast(forecast_url)
 
-        forecast_office = crud.get_office_by_id(grid['grid_id'])
-        forecast_office_id = grid['grid_id']
-        office_name = forecast_data.get_office_name(forecast_office_id)
-        grid_x = grid['grid_x']
-        grid_y = grid['grid_y']
-        if not forecast_office:
-            
+@app.route('/news')
+def get_news():
+    
+    office_id = request.args.get('id')
+    
+    articles = forecast_data.get_news_headlines(office_id)
 
-            crud.create_forecast_office(forecast_office_id, office_name, grid_x, grid_y)
-
-        user_id = session.get('user')
-
-        visit = get_visit_by_user_office(user_id,forecast_office_id)
-
-        if not visit:
-            user = crud.get_user_by_id(user_id)
-            crud.create_visit(user,forecast_office)
-
-            
+    return jsonify(articles)
 
     
-    return render_template('forecastpage.html', forecast = forecast_dict, state_code = state_code_dict, 
-                            city=city, state=state,office_name = office_name,
-                            forecast_id = forecast_office_id,
-                            grid = grid['forecast_hourly'])
-        
- 
-@app.route('/hourly-forecast/<grid>')
-def get_hourly_forecast():
 
-    forecast_link = grid['forecast_hourly']
-    print(f' the forecast link --- {forecast_link}')
-    return forecast_link
+def articles_dict(articles):
 
+    articles_dict = {}
+    lst = []
+    for article in articles:
 
+        print(article['title'])
 
+@app.route('/hourly-forecast')  # TODo after doing all the things in forecast_data
+def show_hourly_forecast():
 
-@app.route('/offices')
-def show_offices(): 
+    hourly_forecast_= forecast_data.get_hourly_forecast
 
-    # after session works get all offices visited by user
+    # data = forecast_data.hourly_forecast()
 
-    visits = crud.get_visit_by_user(2)
-    for visit in visits:
-
-        offices = visit.forecast_office_id
-
-        print(offices)
-    return "offices"
-
-# @app.route("/ajax-view")
-# def get_ele():
-
-#     return "working"
-
-# @app.route('/news', methods=['POST'])   
-# def show_news():
-
-#     office_id = request.form.get('office-id')
-#     res = request.get(f'https://api.weather.gov/offices/{ office_id}/headlines')
-
+    # return jsonify(tbl)
 
 def get_state_code():
 
@@ -215,21 +166,34 @@ def get_state_code():
     return state_code_dict
 
 
-@app.route('/news')
-def get_news():
+def add_data_todb(data):   # takes the return value of the api_data
 
-    office_id = request.args.get('id')
-    print(office_id)
+    grid, office_name, station, city, state = data
 
-    return jsonify(newspaper)
-
-@app.route('/hourly-forecast')
-def show_hourly_forecast():
-
-    tbl = forecast_data.hourly_forecast()
-
-    return jsonify(tbl)
     
+    grid_id, grid_x, grid_y, endpoint = (grid['grid_id'],grid['grid_x'],grid['grid_y'],grid['office_endpoint'])
+    station_id, station_name, elev, obs_url = (station['station_id'],station['station_name'],station['elevation'],station['observation'])
+
+
+    crud.create_forecast_office(grid_id, office_name, grid_x, grid_y,endpoint)
+    crud.create_station(station_id, station_name,elev, grid_id,obs_url)
+    crud.create_city(city,state,grid_id)
+
+def forecast_tuple(city,state):
+
+    grid, office_name,station = forecast_data.api_data(city,state)
+    office_id = grid['grid_id']
+
+
+    endpt = grid['office_endpoint']
+    obs_url = station['observation']
+
+    forecast_url = f'{endpt}/forecast'
+    hourly_forecast = f'{forecast_url}/hourly'
+    forecast_dict = forecast_data.show_forecast(forecast_url)
+    station_dict = station
+    station_forecast = forecast_data.station_forecast(obs_url)
+    return (grid,forecast_dict,office_name,office_id,hourly_forecast, station_dict,station_forecast)
 
 
 

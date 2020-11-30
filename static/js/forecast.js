@@ -1,48 +1,20 @@
 "use strict";
 
-$('#office-id').on('click', () => {
 
-  alert($('#office').val());
+$('#local-office').on('click', () =>{
 
-  $.get('/news', { id: 'Mpx' }, (res) => {
-    const newsPaper = [];
-    for(const article of res.articles){
+  const api_url = 'https://www.weather.gov/';
+  const officeId = $('#office-id').val();
   
-      const a = `<a href="${article.link}">${article.title}</a></br>`;
-     
-      newsPaper.push(a);
-    //   $("#article-title").append(`<a href="${article.link}">${article.title}</a>`);
-      
-    }
-    
-    $('#article-title').html(newsPaper);
-    
-  });
-
+  window.open(`${api_url}${officeId}`)
   
 
 });
 
-// $.get('/ajax-view', (respones) => {
-//       $('#ajax').text(respones);
-//   // });
 
-  // $.get('/news', { id: 'Mpx' }, (res) => {
-  //   const newsPaper = [];
-  //   for(const article of res.articles){
+
   
-  //     const a = `<a href="${article.link}">${article.title}</a></br>`;
-     
-  //     newsPaper.push(a);
-  //   //   $("#article-title").append(`<a href="${article.link}">${article.title}</a>`);
-      
-  //   }
-    
-  //   $('#article-title').html(newsPaper);
-  //   // $('#ajax').text(newsPaper);
-  //   $('#article').html(newsPaper);
-    
-  // });
+  
 
   // $.get('/hourly-forecast', { id: 'Mpx' }, (res) => {
   //   const hourlyForecast = [];
@@ -130,14 +102,20 @@ $('#office-id').on('click', () => {
   //     }
   //   );
   // });
+  
+  
 
-$('#news-button').on('click',() => {
+$('#news').on('click',() => {
 
-  $.get('/news', { id: 'Mpx' }, (res) => {
+ 
+  // evt.preventDefault();
+  const officeId = $('#office-id').val();
+  
+  $.get('/news', { id: `${officeId}` }, (res) => {
     const newsPaper = [];
     for(const article of res.articles){
   
-      const a = `<a href="${article.link}">${article.title}</a></br>`;
+      const a = `<a href="${article.link}" target="_blank">${article.title}</a></br>`;
      
       newsPaper.push(a);
     }

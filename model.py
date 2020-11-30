@@ -36,8 +36,7 @@ class Visit(db.Model):
 
     __tablename__ = 'visits'
 
-    visit_id = db.Column(db.Integer, 
-                autoincrement=True,
+    visit_id = db.Column(db.Integer, autoincrement=True,
                 primary_key= True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
@@ -60,19 +59,40 @@ class Forecast_office(db.Model):
 
     forecast_office_id = db.Column(db.String, 
                                      primary_key= True)
-    office_name = db.Column(db.String, nullable = False, unique = True)
+    office_name = db.Column(db.String, nullable = False)
     grid_x = db.Column(db.Integer, nullable= False)
     grid_y= db.Column(db.Integer, nullable= False)
+    office_endpoint = db.Column(db.String, nullable=False)
 
 
     visit = db.relationship('Visit')
     station = db.relationship('Station')
     forecast = db.relationship('Forecast')
+    city = db.relationship('City')
 
 
     def __repr__(self):
         """ show info about Weather Forecast office  """
         return f'<Forecast Office forecast_office_id={self.forecast_office_id} Forecast Office={self.office_name}>'
+
+
+class City(db.Model):
+    """ A city info """
+
+    __tablename__ = 'cities'
+
+    city_id = db.Column(db.Integer, autoincrement = True,
+                            primary_key = True)
+    forecast_office_id = db.Column(db.String, db.ForeignKey('forecast_offices.forecast_office_id'))
+
+    city = db.Column(db.String, nullable = False)
+    state = db.Column(db.String, nullable = False)
+    
+    forecast_office = db.relationship('Forecast_office')
+
+    def __repr__(self):
+        """ show City,State """
+        return f'<City {self.city}, {self.state}>'
 
 
 class Forecast(db.Model):
@@ -83,8 +103,7 @@ class Forecast(db.Model):
     forecast_id = db.Column(db.Integer, autoincrement = True,
                             primary_key = True)
     forecast_office_id = db.Column(db.String, db.ForeignKey('forecast_offices.forecast_office_id'))
-    temp_high = db.Column(db.Float, nullable=False, 
-                    unique = True)
+    temp_high = db.Column(db.Float, nullable=False)
     temp_low = db.Column(db.Float, nullable = False)
     image = db.Column(db.String, nullable = False)
     weather_description = db.Column(db.String, nullable = False)
@@ -109,8 +128,7 @@ class Station(db.Model):
                             primary_key = True)
     station_name = db.Column(db.String, nullable = False)
     elevation = db.Column(db.Float, nullable = True)
-    
-
+    observation_url= db.Column(db.String, nullable = False)
     forecast_office_id = db.Column(db.String, db.ForeignKey('forecast_offices.forecast_office_id'))
 
     forecast_office = db.relationship('Forecast_office')

@@ -20,6 +20,7 @@ crossorigin="anonymous"></script>
                 </p>
                 <p>
                     State <select name="state">
+                        <option value="Select a State" selected>Select a State</option>
                         {% for state in state_code %}
                             <option value="{{state['Code']}}">{{state['State']}}</option>
                         {% endfor %}
@@ -34,17 +35,23 @@ crossorigin="anonymous"></script>
         <div class="News"> 
             
                 <input type = "hidden" value = "{{forecast_id}}" id="office-id">
+                <input type="hidden" value="{{hourly_forecast}}" id="hourly-forecast">
               
+                <a href="" id="news-headlines">News Headlines</a>
+                <button id="news">news</button>
                 
-                <button id="news-button" >News</button>
             
             <div id="article"></div>
         </div>
     </div>
 
     <div>
-        Your local forecast office is
-        {{office_name}}
+        Your local forecast office is</br>
+        
+                
+                <a href="" id="local-office">{{office_name}}</a>
+                
+
         
 
     </div>
@@ -121,7 +128,7 @@ crossorigin="anonymous"></script>
     </div>
 
     <div><a href="/offices">Show Weather Forecast Offices</div></a>
-    <a href="javascript:void(0)" onclick="hourlyForecast()">Hourly Weather Forecast</a>
+    
     <a href="javascript:void(0)" id="hourly-forecast-link"> Beti</a>
     <button id="dani">Dani</button>
 
