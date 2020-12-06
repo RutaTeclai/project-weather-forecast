@@ -36,7 +36,10 @@ $('#local-office').on('click', () =>{
 
   $('#forecast-hourly').on('click', () => {
 
-    $.get('/hourly-forecast', { id: 'Mpx' }, (res) => {
+
+    const url = $('#hourly-forecast-url').val()
+    alert("Scroll Down to See Hourly Forecast Chart")
+    $.get('/hourly-forecast', { url: `${url}` }, (res) => {
       const data = [];
       for (const forecast of res.forecasts) {
         data.push({x: forecast.time, y: forecast.temp});

@@ -27,7 +27,8 @@ $('#create_user').on('submit', (evt) => {
             alert('Account successfuly created. Please Log In');
             // TODO reset or clear form
             $('#create_user')[0].reset();
-            $('#create_user').hide();
+            $("#registration-form").modal('hide');
+            // $('#create_user').hide();
 
         }
 

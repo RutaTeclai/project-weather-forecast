@@ -144,7 +144,8 @@ def station_forecast(observation_url):
     temp = (stn_forecast['properties']['temperature']['value'] * 1.8) + 32
     dewpoint = (stn_forecast['properties']['dewpoint']['value'] * 1.8) + 32
     humidity = stn_forecast['properties']['relativeHumidity']['value']
-    
+    desc = stn_forecast['properties']['textDescription']
+    icon = stn_forecast['properties']['icon']
     # windSpeed = stn_forecast['properties']['windSpeed']['value']  --- it returns none
     
     # windSpeed = (stn_forecast['properties']['windSpeed']['value'] * 0.621)
@@ -153,12 +154,14 @@ def station_forecast(observation_url):
 
     
     stn_dict = {
-        'temp': temp,
+        'temp': round(temp),
         'dewpoint': round(dewpoint),
         'humidity': round(humidity),
         # 'windspeed': round(windSpeed),
         # # 'windspeed': windSpeed,
-        'visibility': round(visibility)
+        'visibility': round(visibility),
+        'icon':icon,
+        'desc': desc
     }
 
     return  stn_dict
@@ -187,16 +190,16 @@ def get_hourly_forecast(hourly_forecast_url):
 
     res = requests.get(hourly_forecast_url)
     hourly_forecast = res.json()
+    period = hourly_forecast['properties']['periods']
+    return period
 
-    return hourly_forecast['periods']
+def iso_to_date(date_iso_format):
 
-# def iso_to_date(date_iso_format):
+    match_obj = re.search(r'^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$', date_iso_format)
 
-#     match_obj = re.search(r'^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?$', date_iso_format)
+    date_time = datetime.strptime(f'{match_obj.group(1)}-{match_obj.group(2)}-{match_obj.group(3)}{match_obj.group(4)}:{match_obj.group(5)}:{match_obj.group(6)}', '%Y-%m-%d%H:%M:%S')
 
-#     date_time = datetime.strptime(f'{match_obj.group(1)}-{match_obj.group(2)}-{match_obj.group(3)}{match_obj.group(4)}:{match_obj.group(5)}:{match_obj.group(6)}', '%Y-%m-%d%H:%M:%S')
-
-#     return date_time
+    return date_time
 
 
 # def reg_date(date_value):
@@ -240,28 +243,28 @@ def get_hourly_forecast(hourly_forecast_url):
 
     
 
-# def hourly_forecast():
+def hourly_forecast(periods):
 
-#     date_str = iso_to_date(periods[0]['startTime'])
+    date_str = iso_to_date(periods[0]['startTime'])
 
-#     data = []
+    data = []
     
-#     for period in periods:
+    for period in periods:
 
-#         if (iso_to_date(period['startTime'])).date() == date_str.date():
+        if (iso_to_date(period['startTime'])).date() == date_str.date():
 
-#             # time = (iso_to_date(period['startTime'])).time().strftime("%-I %p")
-#             time = period['startTime']
-#             temp = period['temperature']
-#             data.append({'time':f'{time}', 'temp':temp })
+            # time = (iso_to_date(period['startTime'])).time().strftime("%-I %p")
+            time = period['startTime']
+            temp = period['temperature']
+            data.append({'time':f'{time}', 'temp':temp })
            
-#             print(period['temperature'])
+            # print(period['temperature'])
             
-#             print((iso_to_date(period['startTime'])).time().strftime("%-I %p"))
+            # print((iso_to_date(period['startTime'])).time().strftime("%-I %p"))
 
-#     hourly_forecast = {'forecasts':data}
+    hourly_forecast = {'forecasts':data}
 
-#     return hourly_forecast
+    return hourly_forecast
 
 
 

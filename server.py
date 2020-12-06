@@ -60,7 +60,8 @@ def show_method():
     
     email= request.args.get('email')
     password= request.args.get('password')
-
+    print(email)
+    print(password)
     user= crud.get_user_by_email(email)
    
 
@@ -141,22 +142,24 @@ def get_news():
 
     
 
-def articles_dict(articles):
+# def articles_dict(articles):
 
-    articles_dict = {}
-    lst = []
-    for article in articles:
+#     articles_dict = {}
+#     lst = []
+#     for article in articles:
 
-        print(article['title'])
+#         print(article['title'])
 
 @app.route('/hourly-forecast')  # TODo after doing all the things in forecast_data
 def show_hourly_forecast():
 
-    hourly_forecast_= forecast_data.get_hourly_forecast
+    url = request.args.get('url')
+    print(url)
 
-    # data = forecast_data.hourly_forecast()
-
-    # return jsonify(tbl)
+    periods= forecast_data.get_hourly_forecast(url)
+    data = forecast_data.hourly_forecast(periods)
+    
+    return jsonify(data)
 
 def get_state_code():
 
