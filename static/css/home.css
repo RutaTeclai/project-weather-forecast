@@ -1,0 +1,40 @@
+body{
+    /* background-image: url("/static/img/bluesky.jpg"); */
+    background-color: rgb(204, 240, 240);
+    background-size: cover; 
+    
+
+}
+/* navigation bar */
+.navbar {
+	background-color: #08abf7;
+	color: rgb(10, 8, 8);
+	border-radius: 0px;
+}
+/* the little icon on the left side of the navbar  */
+#logo{
+	width: 30px;
+    float: left;
+    margin-top: 7px;
+    margin-right: 7px;
+
+}
+/* button for create User account */
+.user-account{
+	color: rgb(10, 51, 114);
+}
+/* image in the middle */
+section {
+	margin-top: 30px;
+}
+
+#cloudy	{
+	height: 500px;
+}
+.home-form{
+	margin-top: 40px;
+	
+}
+.city-state{
+	margin-left: 35;
+}

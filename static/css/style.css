@@ -1,0 +1,126 @@
+body{
+    /* background-image: url("/static/img/bluesky.jpg"); */
+    /* margin-top: 15px;
+    background-color: rgb(204, 240, 240); */
+    background-color: rgb(204, 240, 240);
+    background-size: cover; 
+    
+
+}
+/* .col{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+element.style {
+}
+.col {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.col {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+}
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+#create_user{
+    display:none;
+}
+
+.forecast_date{
+    height: 50px;
+}
+
+/* .short-forecast{
+    height: 100px;
+    font-size: small;
+} */
+
+/* .row{
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+.weather-name{
+    padding-right: 5px;
+    text-align: right;
+    
+}
+
+.bar{
+    background-color: white;
+    height: 400px;
+    width: 120px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border: solid, whitesmoke, 5px;
+    
+  }
+
+  .forecast_date{
+      text-align: center;
+      background-color: white;
+      height: 30px;
+      margin-top: 5px;
+      margin-left: 5px;
+      display: inline-block;
+  }
+.low-temp{
+    background-color: rgb(53, 121, 199);
+}
+  .box{
+    background-color: lightskyblue;
+    width: 90%;
+    height: 360px;
+    margin-left: 6px;
+    margin-top: 5px;
+    display: inline-block; 
+    vertical-align: center;
+
+  }
+  .icon{
+    padding: 8px;
+    display: inline-block;
+    align-content: center;
+}
+.night{
+    height: 50px;
+    width: 100%;
+    margin-left: 0%;
+
+}   
+
+.user_login{
+    max-width: 330px;
+    /* margin: 5em auto 0 auto; */
+/* }
+.user-forms{
+    margin-top: 15px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+#btn-forecast{
+    margin-left: 15px;
+}
+.Welcome-header{
+    margin-top: 150px;
+    margin-left: 200px;
+}
+
+.search-box{
+    margin-left: 15px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}  */ 

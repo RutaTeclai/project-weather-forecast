@@ -1,0 +1,144 @@
+body{
+    /* background-image: url("/static/img/bluesky.jpg"); */
+    background-color: rgb(204, 240, 240);
+    background-size: cover; 
+    
+
+}
+.navbar {
+	background-color: #08abf7;
+	color: rgb(10, 8, 8);
+	border-radius: 0px;
+}
+/* the little icon on the left side of the navbar  */
+#logo{
+	width: 30px;
+    float: left;
+    margin-top: 7px;
+    margin-right: 7px;
+
+}
+/* .station-name #local-office{
+    
+    font-size: 2rem;
+    
+    
+} */
+.station-desc{
+    font-size: 2rem;
+    text-align: center;
+    color: rgb(10, 12, 14);
+    font-weight: bold;
+
+}
+.station-temp{
+    font: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 2.5rem;
+}
+.weather-name{
+    padding-right: 5px;
+    text-align: right;
+    font-size: 1rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font: bold;
+
+    
+}
+
+.weather-condition{
+
+    font: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
+    
+}
+
+.bar{
+    background-color: white;
+    height: 433px;
+    width: 120px;
+    margin-top: 10px;
+    margin-left: 10px;
+    border: solid, whitesmoke, 5px;
+    
+  }
+  .forecast-night{
+    height: 45px;
+    background-color: white;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: 0px;
+    font: bold;
+    font-family: 'Sansita Swashed', cursive;
+    text-align: center;
+
+}   
+
+
+  .forecast_date{
+      text-align: center;
+      background-color: white;
+      height: 30px;
+      margin-top: 5px;
+      margin-left: 5px;
+      display: inline-block;
+      font: bold;
+      font-family: 'Sansita Swashed', cursive;
+      text-align: center;
+  }
+.low-temp{
+    background-color: rgb(53, 121, 199);
+    font-size: 2rem;
+    text-align: center;
+    color: aliceblue;
+    font-weight: bold;
+}
+
+.high-temp{
+    font-size: 2rem;
+    text-align: center;
+    color: rgb(121, 189, 33);
+    font-weight: bold;
+}
+.short-forecast{
+    font-family: 'Yeon Sung', cursive;
+    font-style: oblique;
+    /* font-family: fantasy; */
+    font-size: 1rem;
+    text-align: center;
+    font-weight: bold;
+}
+  .box{
+    background-color: lightskyblue;
+    width: 90%;
+    height: 360px;
+    margin-left: 6px;
+    margin-top: 5px;
+    display: inline-block; 
+    vertical-align: center;
+
+  }
+  .icon{
+    padding: 8px;
+    display: inline-block;
+    align-content: center;
+}
+*, ::after, ::before {
+    /* box-sizing: border-box; */
+    box: ;
+    */box: ;
+    */: ;
+}
+
+section {
+    margin-top: 1px;
+}
+
+.p-2 {
+    padding: .1rem!important;
+    padding-top: 0.1rem !important;
+    padding-right: 0.1rem !important;
+    padding-bottom: 0.1rem !important;
+    padding-left: 0.1rem !important;
+}

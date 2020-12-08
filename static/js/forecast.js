@@ -37,8 +37,9 @@ $('#local-office').on('click', () =>{
   $('#forecast-hourly').on('click', () => {
 
 
-    const url = $('#hourly-forecast-url').val()
-    alert("Scroll Down to See Hourly Forecast Chart")
+    const url = $('#hourly-forecast-url').val();
+    const temp = $('#deg').val();
+    alert("Scroll Down to See Hourly Forecast Chart");
     $.get('/hourly-forecast', { url: `${url}` }, (res) => {
       const data = [];
       for (const forecast of res.forecasts) {
@@ -53,12 +54,19 @@ $('#local-office').on('click', () =>{
             datasets: [
               {
                 label: 'Hourly Forecast',
-                data: data
+                data: data,
+                fill: false
               }
             ]
           },
           options: {
             scales: {
+              yAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Temperature in '+ `${temp}`
+                }
+              }],
               xAxes: [
                 {
                   type: 'time',

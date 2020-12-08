@@ -64,6 +64,7 @@ crossorigin="anonymous"></script>
       <div class=" row passed-values">
         <input type = "hidden" value = "{{forecast_id}}" id="office-id">
         <input type="hidden" value="{{hourly_forecast}}" id="hourly-forecast-url">
+        <input type="hidden" value="&deg;F" id="deg">
     </div>
       <div class="row align-items-center">
         <section class="col-10 mx-auto" id="cloud">
@@ -303,7 +304,13 @@ crossorigin="anonymous"></script>
 
         </section>
       </div>
-      <canvas id="forecast-chart"></canvas>
+      <div class="row-no-gutters align-items-center">
+        <section class="col-8 mx-auto" id="cloud">
+          <canvas id="forecast-chart"></canvas>
+        </section>
+      </div>
+       
+      
 
       
 

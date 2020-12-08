@@ -1,0 +1,33 @@
+--+-------+--------+----------------+----------+-----------+-------
+       1 | A     | B      | a@b            | ab       | CD        | EF
+       2 | Ruta  | Teclai | test@gmail.com | test     | Linn      | KS
+       3 | Dani  | Mehari | abc@gmail.com  | 123      | Rochester | MN
+       4 | Jason | Python | json@py        | js       | Austin    | TX
+       5 | Mary  | Jason  | mary@gmail.com | 123      | Atlanta   | GA
+
+
+Top                | Topeka,KS                  |     31 |     80
+ ARX                | La Crosse, WI              |     21 |     70
+ MTR                | San Francisco Bay Area, CA |     95 |    125      action="create_user" method="POST"
+ MPX                | Twin Cities, MN            |    111 |     64
+ DLH                | Duluth, MN                 |     88 |     66
+ FFC                | Peachtree City, GA         |     48 |     86
+
+ 
+EWX                | Austin/San Antonio, TX     |    155 |     91
+ BOU                | Denver/Boulder, CO         |     66 |     61
+ FWD                | Fort Worth/Dallas, TX      |     89 |    104
+
+         1 | Top                |        75 |       56 | https://api.weather.gov/icons/land/day/skc?size=medium | sunny               |  
+   0.56 |        52 | 2020-11-12 20:54:58.318034 | Linn      | KS
+           2 | ARX                |        39 |       30 | https://forecast.weather.gov/newimages/medium/fg.png   | Fog/Mist            |  
+   0.96 |        32 | 2020-11-25 15:16:59.93297  | Rochester | MN
+
+           3 | EWX                |        58 |       46 | https://forecast.weather.gov/newimages/large/ovc.png   | Overcast            |  
+   0.46 |        37 | 2020-11-25 15:16:59.93297  | Austin    | TX
+
+<a href="https://www.weather.gov/{{forecast_id}}" id="office">                    
+                    {{office_name}}
+                </a>
+
+                <a href="javascript:void(0)" onclick="localOffice()">{{office_name}}</a>
